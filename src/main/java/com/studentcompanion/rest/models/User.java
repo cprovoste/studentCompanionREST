@@ -2,10 +2,13 @@ package com.studentcompanion.rest.models;
 
 import javax.persistence.*;
 
+@Entity
 public class User {
 
+    @Id
     private int id;
 
+    @Column(unique = true)
     private String username;
     private String password;
 
