@@ -1,6 +1,7 @@
 package com.studentcompanion.rest.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -12,6 +13,14 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
 
     public User()
     {
@@ -46,5 +55,15 @@ public class User {
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public List<Course> getCourses()
+    {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses)
+    {
+        this.courses = courses;
     }
 }
