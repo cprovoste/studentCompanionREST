@@ -4,6 +4,7 @@ import com.studentcompanion.rest.models.Course;
 import com.studentcompanion.rest.models.CourseRepository;
 import com.studentcompanion.rest.models.User;
 import com.studentcompanion.rest.models.UserRepository;
+import com.studentcompanion.rest.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,7 +25,8 @@ public class RestApiApplication {
 	{
 		return (String[] args) -> {
 
-			Course course = crepository.getReferenceById(1l);
+			Course course = crepository.getReferenceById(0l);
+
 			List<Course> courses = new ArrayList<>();
 			courses.add(course);
 
