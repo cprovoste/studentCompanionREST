@@ -1,31 +1,42 @@
 package com.studentcompanion.rest.services;
 
 import com.studentcompanion.rest.models.User;
+import com.studentcompanion.rest.models.UserDTO;
 import com.studentcompanion.rest.models.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@RestController
+@Service
 public class UserService
 {
 	@Autowired
 	UserRepository userRepository;
 
-	@GetMapping("/users")
-	public List<User> all()
+	public List<UserDTO> getAllUsers()
 	{
-		return userRepository.findAll();
+		return userRepository.findAll().stream().map(this::convertEntityToDTO).collect(Collectors.toList());
 	}
 
-	@GetMapping(value = "/{user}", produces = "application/json")
-	public User getUser(@PathVariable String user) {
-		return getUserByUsername(user);
+	public User findUserByUsername(String user) {
+		return userRepository.findUserByUsername(user);
 	}
 
-	@GetMapping("/get-by-username/{username}")
-	public User getUserByUsername(@PathVariable String username){return userRepository.findUserByUsername(username);}
+	private UserDTO convertEntityToDTO(User user){
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
+		userDTO.setFirstName(user.getFirstName());
+		userDTO.setLastName(user.getLastName());
+		userDTO.setUsername(user.getUsername());
+		userDTO.setPassword(user.getPassword());
+
+		return userDTO;
+	}
+
+
 
 
 }

@@ -19,9 +19,11 @@ public class Course
 	private String days;
 	private String times;
 
+
 	@JsonIgnore
 	@ManyToMany(mappedBy = "courses")
 	private List<User> users;
+
 
 	public Course()
 	{
@@ -52,8 +54,7 @@ public class Course
 		return users;
 	}
 
-	public void setUsers(List<User> users)
-	{
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 

@@ -17,6 +17,7 @@ public class User {
     private String firstName;
     private String lastName;
 
+
     @ManyToMany
     @JoinTable(
             name = "users_courses",
@@ -24,6 +25,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> courses;
+
 
     public User()
     {
