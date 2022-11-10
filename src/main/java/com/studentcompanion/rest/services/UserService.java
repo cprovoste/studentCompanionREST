@@ -98,4 +98,12 @@ public class UserService
 		return tokens;
 	}
 
+	public User updateUserToken(User user, String localToken)
+	{
+		Token token = new Token(localToken);
+		User existingUser = userRepository.findById(user.getId()).orElse(null);
+		existingUser.setToken(token);
+		return userRepository.save(existingUser);
+	}
+
 }
