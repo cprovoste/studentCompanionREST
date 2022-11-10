@@ -17,7 +17,10 @@ public class User {
     private String firstName;
     private String lastName;
 
+    public User()
+    {
 
+    }
     @ManyToMany
     @JoinTable(
             name = "users_courses",
@@ -26,11 +29,10 @@ public class User {
     )
     private List<Course> courses;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "token_id", referencedColumnName = "id")
+    private Token token;
 
-    public User()
-    {
-
-    }
 
     public int getId()
     {
@@ -85,4 +87,11 @@ public class User {
         this.lastName = lastName;
     }
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
 }

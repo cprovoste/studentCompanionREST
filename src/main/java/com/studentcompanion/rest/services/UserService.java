@@ -1,15 +1,13 @@
 package com.studentcompanion.rest.services;
 
-import com.studentcompanion.rest.models.Course;
-import com.studentcompanion.rest.models.User;
-import com.studentcompanion.rest.models.UserDTO;
-import com.studentcompanion.rest.models.UserRepository;
+import com.studentcompanion.rest.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,9 +41,6 @@ public class UserService
 		//ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae
 	}
 
-	public String validateToken(String token) {
-		return ";";
-	}
 
 	 public UserService(UserRepository userRepository)
 	 {
@@ -88,6 +83,19 @@ public class UserService
 		}
 		user.setPassword(encodedPassword);
 		 return this.userRepository.save(user);
+	}
+
+	public List<Token> getTokens()
+	{
+		List<User> users = userRepository.findAll();
+		List<Token> tokens = new ArrayList<>() {
+		};
+		for (var u : users) {
+			if(u.getToken() != null){
+				tokens.add(u.getToken());
+			}
+		}
+		return tokens;
 	}
 
 }

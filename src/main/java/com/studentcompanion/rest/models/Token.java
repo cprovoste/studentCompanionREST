@@ -1,9 +1,12 @@
 package com.studentcompanion.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "Tokens")
+@Table(name = "Token")
 public class Token {
 
     @Id
@@ -17,6 +20,9 @@ public class Token {
     public Token() {
 
     }
+
+    @OneToOne(mappedBy = "token")
+    private User user;
 
     public int getId() {
         return id;
@@ -41,4 +47,6 @@ public class Token {
     public void setToken(String token) {
         this.token = token;
     }
+
+
 }

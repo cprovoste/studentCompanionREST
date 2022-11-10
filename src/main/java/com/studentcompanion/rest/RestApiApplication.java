@@ -1,9 +1,6 @@
 package com.studentcompanion.rest;
 
-import com.studentcompanion.rest.models.Course;
-import com.studentcompanion.rest.models.CourseRepository;
-import com.studentcompanion.rest.models.User;
-import com.studentcompanion.rest.models.UserRepository;
+import com.studentcompanion.rest.models.*;
 import com.studentcompanion.rest.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +19,7 @@ public class RestApiApplication {
 		SpringApplication.run(RestApiApplication.class, args);
 	}
 	@Bean
-	public CommandLineRunner run(UserRepository urepository, CourseRepository crepository, UserService userService)
+	public CommandLineRunner run(UserRepository urepository, CourseRepository crepository, UserService userService, TokenRepository tokenRepository)
 	{
 		return (String... args) -> {
 
@@ -36,6 +33,8 @@ public class RestApiApplication {
 			courses.add(course2);
 			courses.add(course3);
 			courses.add(course4);
+
+
 
 			Optional<User> ouser = urepository.findById(11);
 			if( ouser.isPresent() )
