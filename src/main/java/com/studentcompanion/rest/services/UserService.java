@@ -16,6 +16,7 @@ public class UserService
 {
 	@Autowired
 	UserRepository userRepository;
+	TokenRepository tokenRepository;
 
 	public String genHash(String message) throws NoSuchAlgorithmException {
 
@@ -42,9 +43,10 @@ public class UserService
 	}
 
 
-	 public UserService(UserRepository userRepository)
+	 public UserService(UserRepository userRepository, TokenRepository tokenRepository)
 	 {
 		 this.userRepository = userRepository;
+		 this.tokenRepository = tokenRepository;
 	 }
 
 	public List<UserDTO> getAllUsers()
@@ -98,12 +100,14 @@ public class UserService
 		return tokens;
 	}
 
-	public User updateUserToken(User user, String localToken)
+	public User updateUserToken(int userId, String localToken)
 	{
 		Token token = new Token(localToken);
-		User existingUser = userRepository.findById(user.getId()).orElse(null);
+		User existingUser = userRepository.findById(userId).orElse(null);
 		existingUser.setToken(token);
 		return userRepository.save(existingUser);
 	}
+
+
 
 }

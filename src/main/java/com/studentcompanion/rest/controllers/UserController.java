@@ -1,10 +1,13 @@
 package com.studentcompanion.rest.controllers;
 
-import com.google.gson.Gson;
 import com.studentcompanion.rest.models.*;
 import com.studentcompanion.rest.services.UserService;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,9 +15,16 @@ import java.util.UUID;
 @RestController
 public class UserController {
 
+
     @Autowired
     UserService userService;
     TokenRepository tokenRepository;
+
+    public UserController(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
+
+    boolean auth = false;
 
     @GetMapping("/users")
     public List <UserDTO> getAllUsers()
@@ -39,9 +49,28 @@ public class UserController {
     @GetMapping("/getTokens")
     public List<Token> getAllTokens (){return userService.getTokens();}
 
-    @PutMapping("/updateToken")
-    public User updateUserToken(@RequestBody User user, String token){
-        return userService.updateUserToken(user, token);
+    @PostMapping("/updateToken")
+    public User handlePostRequest(@RequestBody String requestBody) {
+        //String responseBody = "OK";
+        Object o1 = JSONValue.parse(requestBody);
+        JSONObject jsonObj = (JSONObject) o1;
+        String userID = (String) jsonObj.get("id");
+        String token = (String) jsonObj.get("token");
+
+        return userService.updateUserToken(Integer.parseInt(userID), token);
     }
+
+    @PostMapping("/validateToken")
+    public String validate(@RequestBody String requestBody)
+    {
+        JSONObject jsonObj = (JSONObject) JSONValue.parse(requestBody);
+        String token = (String) jsonObj.get("token");
+
+        return String.format("{\"result\":\"%s\"}", (tokenRepository.findTokenByString(token) != null));
+    }
+
+
+
+
 
 }
