@@ -66,11 +66,8 @@ public class UserController {
         JSONObject jsonObj = (JSONObject) JSONValue.parse(requestBody);
         String token = (String) jsonObj.get("token");
 
+        System.out.println(String.format("{\"result\":\"%s\"}", (tokenRepository.findTokenByString(token) != null)));
         return String.format("{\"result\":\"%s\"}", (tokenRepository.findTokenByString(token) != null));
     }
-
-
-
-
 
 }
