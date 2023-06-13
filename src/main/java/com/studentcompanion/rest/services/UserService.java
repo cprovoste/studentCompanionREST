@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,7 +17,16 @@ public class UserService
 {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
 	TokenRepository tokenRepository;
+	@Autowired
+	CourseRepository courseRepository;
+	@Autowired
+	CourseCommentRepository courseCommentRepository;
+	@Autowired
+	ProfessorCommentRepository professorCommentRepository;
+	@Autowired
+	ProfessorRepository professorRepository;
 
 	public String genHash(String message) throws NoSuchAlgorithmException {
 
@@ -54,9 +64,35 @@ public class UserService
 		return userRepository.findAll().stream().map(this::convertEntityToDTO).collect(Collectors.toList());
 	}
 
+	public List<Course> getAllCourses()
+	{
+		return courseRepository.findAll();
+	}
+
+	public List<Professor> getAllProfessors()
+	{
+		return professorRepository.findAll();
+	}
+
 	public User findUserByUsername(String user) {
 		return userRepository.findUserByUsername(user);
 	}
+
+	public User findUserByToken(String token_id)
+	{
+		List<User> users =  userRepository.findAll();
+		for (User user : users) {
+			if(user.getToken() != null) {
+				System.out.println("savedToken: "+ user.getToken().getToken());
+				System.out.println("TokenID: "+token_id);
+				if (user.getToken().getToken().equals(token_id)) {
+					return user;
+				}
+			}
+		}
+		return null;
+	}
+
 
 	private UserDTO convertEntityToDTO(User user){
 		UserDTO userDTO = new UserDTO();
@@ -73,6 +109,12 @@ public class UserService
 	{
 		return userRepository.findUserByUsername(user).getCourses();
 	}
+
+	public Course findCourseByName(String name)
+	{
+		return courseRepository.findCourseByName(name);
+	}
+
 
 	public User save(User user){
 
@@ -108,6 +150,78 @@ public class UserService
 		return userRepository.save(existingUser);
 	}
 
+	public CourseComment addComment(String comment, int rating, String localToken, String course){
 
+		CourseComment c = new CourseComment();
+		c.setComment(comment);
+		c.setRating(rating);
+
+
+		User existingUser = findUserByToken(localToken);
+
+		List<CourseComment> comments = existingUser.getComments();
+		c.setUser(existingUser);
+
+		Course existingCourse = findCourseByName(course);
+		c.setCourse(existingCourse);
+		comments.add(c);
+
+		existingUser.setComments(comments);
+
+		return courseCommentRepository.save(c);
+	}
+
+	public ProfessorComment addProfessorComment(String comment, String professor,int rating, String localToken){
+
+		ProfessorComment c = new ProfessorComment();
+		c.setComment(comment);
+		Professor actualProfessor = professorRepository.findProfessorByName(professor);
+		c.setProfessor(actualProfessor);
+		c.setRating(rating);
+
+		User existingUser = findUserByToken(localToken);
+
+		List<ProfessorComment> comments = existingUser.getProfessorComments();
+		c.setUser(existingUser);
+		comments.add(c);
+
+		existingUser.setProfessorComments(comments);
+
+		return professorCommentRepository.save(c);
+	}
+
+
+	public CourseComment updateCourseRating(int commentID, int courseScore, boolean voted) {
+
+		CourseComment c = courseCommentRepository.getReferenceById(commentID);
+		c.setRating(courseScore);
+		c.setVoted(voted);
+
+		return courseCommentRepository.save(c);
+	}
+
+	public ProfessorComment updateProfessorRating(int commentID, int professorScore, boolean voted) {
+
+		ProfessorComment c = professorCommentRepository.getReferenceById(commentID);
+		c.setRating(professorScore);
+		c.setVoted(voted);
+
+		return professorCommentRepository.save(c);
+	}
+
+
+	public Boolean getCommentVotedBoolean (int commentID)
+	{
+		CourseComment c = courseCommentRepository.getReferenceById(commentID);
+
+		return c.isVoted();
+	}
+
+	public Boolean getProfessorCommentVotedBoolean (int commentID)
+	{
+		ProfessorComment c = professorCommentRepository.getReferenceById(commentID);
+
+		return c.isVoted();
+	}
 
 }

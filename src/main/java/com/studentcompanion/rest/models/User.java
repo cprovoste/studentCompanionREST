@@ -1,7 +1,10 @@
 package com.studentcompanion.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "User")
@@ -32,6 +35,15 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "token_id", referencedColumnName = "id")
     private Token token;
+
+    @JsonIgnore
+    @OneToMany (mappedBy="user")
+    private List<CourseComment> comments;
+
+    @JsonIgnore
+    @OneToMany (mappedBy="user")
+    private List<ProfessorComment> professorComments;
+
 
 
     public int getId()
@@ -93,5 +105,21 @@ public class User {
 
     public void setToken(Token token) {
         this.token = token;
+    }
+
+    public List<CourseComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CourseComment> comments) {
+        this.comments = comments;
+    }
+
+    public List<ProfessorComment> getProfessorComments() {
+        return professorComments;
+    }
+
+    public void setProfessorComments(List<ProfessorComment> professorComments) {
+        this.professorComments = professorComments;
     }
 }

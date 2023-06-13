@@ -23,25 +23,13 @@ public class RestApiApplication {
 	{
 		return (String... args) -> {
 
-			Course course = crepository.getReferenceById(0l);
-			Course course2 = crepository.getReferenceById(1l);
-			Course course3 = crepository.getReferenceById(2l);
-			Course course4 = crepository.getReferenceById(3l);
 
-			List<Course> courses = new ArrayList<>();
-			courses.add(course);
-			courses.add(course2);
-			courses.add(course3);
-			courses.add(course4);
-
-
-
-			Optional<User> ouser = urepository.findById(11);
+			Optional<User> ouser = urepository.findById(13);
 			if( ouser.isPresent() )
 			{
 				User user = ouser.get();
 				System.out.println("USER : " + user.getUsername());
-				user.setCourses(courses);
+
 			}
 			else
 			{

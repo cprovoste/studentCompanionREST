@@ -14,4 +14,7 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     Token findTokenByString(String token);
 
 
+    @Query(value = "SELECT u from Token u WHERE u.id = ?1", nativeQuery = true)
+    Token findTokenByID(String id);
+
 }

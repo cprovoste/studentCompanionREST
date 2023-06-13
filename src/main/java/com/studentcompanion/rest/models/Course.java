@@ -13,7 +13,7 @@ public class Course
 
 	private String name;
 	private String classroom;
-	private String professor;
+	private int semester;
 	private String days;
 	private String times;
 
@@ -22,6 +22,13 @@ public class Course
 	@ManyToMany(mappedBy = "courses")
 	private List<User> users;
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "course")
+	private List<CourseComment> comments;
+
+	@ManyToOne
+	@JoinColumn(name="professor_id")
+	private Professor professor;
 
 	public Course()
 	{
@@ -64,11 +71,19 @@ public class Course
 		this.classroom = classroom;
 	}
 
-	public String getProfessor() {
+	public List<CourseComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CourseComment> comments) {
+		this.comments = comments;
+	}
+
+	public Professor getProfessor() {
 		return professor;
 	}
 
-	public void setProfessor(String professor) {
+	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
 
@@ -88,5 +103,11 @@ public class Course
 		this.times = times;
 	}
 
+	public int getSemester() {
+		return semester;
+	}
 
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
 }
