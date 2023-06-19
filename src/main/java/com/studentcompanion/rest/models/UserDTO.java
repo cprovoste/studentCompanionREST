@@ -2,14 +2,14 @@ package com.studentcompanion.rest.models;
 
 public class UserDTO {
 
-    private int id;
+    private int userDTO_id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
 
     public UserDTO(int id, String username, String password, String firstName, String lastName) {
-        this.id = id;
+        this.userDTO_id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -21,11 +21,11 @@ public class UserDTO {
     }
 
     public int getId() {
-        return id;
+        return userDTO_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userDTO_id = id;
     }
 
     public String getUsername() {

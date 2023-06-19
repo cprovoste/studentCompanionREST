@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int user_id;
 
     @Column(unique = true)
     private String username;
@@ -33,7 +33,7 @@ public class User {
     private List<Course> courses;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "token_id", referencedColumnName = "id")
+    @JoinColumn(name = "token_id", referencedColumnName = "token_id")
     private Token token;
 
     @JsonIgnore
@@ -48,12 +48,12 @@ public class User {
 
     public int getId()
     {
-        return id;
+        return user_id;
     }
 
     public void setId(int id)
     {
-        this.id = id;
+        this.user_id = id;
     }
 
     public String getUsername() { return username; }

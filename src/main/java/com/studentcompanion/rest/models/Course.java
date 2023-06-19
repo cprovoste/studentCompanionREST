@@ -9,7 +9,7 @@ public class Course
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private long course_id;
 
 	private String name;
 	private String classroom;
@@ -36,12 +36,12 @@ public class Course
 
 	public long getId()
 	{
-		return id;
+		return course_id;
 	}
 
 	public void setId(long id)
 	{
-		this.id = id;
+		this.course_id = id;
 	}
 
 	public String getName()

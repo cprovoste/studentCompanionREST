@@ -8,7 +8,7 @@ public class ProfessorComment {
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int professorComment_id;
 
     @Column
     private String comment;
@@ -30,11 +30,11 @@ public class ProfessorComment {
     public ProfessorComment() {}
 
     public int getId() {
-        return id;
+        return professorComment_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.professorComment_id = id;
     }
 
     public String getComment() {
