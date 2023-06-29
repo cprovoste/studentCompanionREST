@@ -8,7 +8,7 @@ public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String token_id;
+    private int token_id;
 
     @Column(unique = true)
     private String token;
@@ -24,11 +24,11 @@ public class Token {
     private User user;
 
 
-    public String getId() {
+    public int getTokenId() {
         return token_id;
     }
 
-    public void setId(String id) {
+    public void setTokenId(int id) {
         this.token_id = id;
     }
 

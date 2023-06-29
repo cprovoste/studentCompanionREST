@@ -33,7 +33,7 @@ public class User {
     private List<Course> courses;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "token_id", referencedColumnName = "token_id")
+    @JoinColumn(name = "token_id")
     private Token token;
 
     @JsonIgnore
